@@ -1,0 +1,3 @@
+insert into detectortaskconfig (detector_name, time_range, poll_date, fixed_delay, enabled) values ('output1',1,'2017-01-01',5000,'1');
+insert into detectortaskconfig (detector_name, time_range, poll_date, fixed_delay, enabled) values ('output2',1,'2017-01-01',7000,'1');
+insert into detectortaskconfig (detector_name, time_range, poll_date, fixed_delay, enabled) values ('output3',1,'2017-01-01',6000,'1');

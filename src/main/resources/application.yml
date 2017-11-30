@@ -1,0 +1,93 @@
+myRate: 5000
+
+spring:
+  cloud:
+    stream:
+      binders:
+        rabbit1:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                username: guest
+                password: guest
+
+      bindings:
+        output1:
+          destination: ex.stream.out
+          group: order
+          contentType: application/json
+          binder: rabbit1
+          producer:
+            requiredGroups: ${spring.cloud.stream.bindings.output1.group}
+
+        output2:
+          destination: ex.stream.out
+          group: order2
+          contentType: application/json
+          binder: rabbit1
+          producer:
+            requiredGroups: ${spring.cloud.stream.bindings.output2.group}
+
+        output3:
+          destination: ex.stream.out
+          group: order3
+          contentType: application/json
+          binder: rabbit1
+          producer:
+            requiredGroups: ${spring.cloud.stream.bindings.output3.group}
+
+
+      rabbit:
+        bindings:
+          output1:
+            producer:
+              exchangeType: direct
+              bindingRoutingKey: 'order'
+              routingKeyExpression: '"order"'
+          output2:
+            producer:
+              exchangeType: direct
+              bindingRoutingKey: 'order2'
+              routingKeyExpression: '"order2"'
+          output3:
+            producer:
+              exchangeType: direct
+              bindingRoutingKey: 'order3'
+              routingKeyExpression: '"order3"'
+
+###
+#   Database Settings
+###
+  datasource:
+    url: jdbc:h2:./example-app;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    platform: h2
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: true
+        format_sql: true
+
+###
+#   H2 Settings
+###
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        trace: false
+        web-allow-others: false
+
+
+logging:
+  level:
+    root: INFO
